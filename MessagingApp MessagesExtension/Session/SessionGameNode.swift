@@ -2,6 +2,8 @@
 //  SessionGameNode.swift
 //  MessagingApp MessagesExtension
 //
+// Class representing the moving dots in the Session. Will remove itself from the screen and increment the fail count if it leaves the screen
+//
 //  Created by Phillip OReggio on 12/28/18.
 //  Copyright © 2018 phillip. All rights reserved.
 //
@@ -9,7 +11,6 @@
 import UIKit
 import SpriteKit
 
-/// Class representing the moving dots in the Session. Will remove itself from the screen and increment the fail count if it leaves the screen
 class SessionGameNode: SKShapeNode, Updatable {
     
     weak var sessionGameDelegate: SessionGameDelegate?
@@ -38,6 +39,7 @@ class SessionGameNode: SKShapeNode, Updatable {
 }
 
 // MARK: - Delegation
+/// So the dot can update the amount of missed dots in the SessionScene
 protocol SessionGameDelegate: class {
     func incrementFailCount()
 }

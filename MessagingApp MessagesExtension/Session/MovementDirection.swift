@@ -2,6 +2,8 @@
 //  MovementDirection.swift
 //  MessagingApp MessagesExtension
 //
+// Contains unit vectors for movement from various directions. 
+//
 //  Created by Phillip OReggio on 12/28/18.
 //  Copyright © 2018 phillip. All rights reserved.
 //

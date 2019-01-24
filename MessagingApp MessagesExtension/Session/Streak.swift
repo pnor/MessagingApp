@@ -8,8 +8,11 @@
 
 import Foundation
 
+/** Contains data for the current state of a Session Game. */
 struct Streak: CustomStringConvertible {
+    /** How many rounds users have played */
     var count: Int = 0
+    /** Whether a user has lost a round, ending the streak */
     var gameEnd = false
     
     var description: String { get {

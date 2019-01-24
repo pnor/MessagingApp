@@ -2,6 +2,8 @@
 //  EndSessionViewController.swift
 //  MessagingApp MessagesExtension
 //
+// View Displayed when a session ends
+//
 //  Created by Phillip OReggio on 1/3/19.
 //  Copyright © 2019 phillip. All rights reserved.
 //
@@ -46,6 +48,7 @@ class EndSessionViewController: UIViewController {
         
         maxStreakLabel = UILabel()
         maxStreakLabel.font = UIFont.systemFont(ofSize: 16)
+        maxStreakLabel.text = "Highest Streak"
         parentView.addSubview(maxStreakLabel)
         
         maxStreakNumber = UILabel()
@@ -55,6 +58,7 @@ class EndSessionViewController: UIViewController {
             saturation: 1,
             brightness: 1,
             alpha: 1)
+        maxStreakNumber.text = "\(streak.count)"
         parentView.addSubview(maxStreakNumber)
         
         setUpConstraints()

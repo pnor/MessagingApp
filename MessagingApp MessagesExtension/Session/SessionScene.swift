@@ -2,6 +2,8 @@
 //  SessionScene.swift
 //  MessagingApp MessagesExtension
 //
+// Where the Session game and much of the logic occurs. Sending the Session is handled through delegation. Uses SpriteKit for most of the UI.
+//
 //  Created by Phillip OReggio on 12/28/18.
 //  Copyright © 2018 phillip. All rights reserved.
 //
@@ -47,7 +49,7 @@ class SessionScene: SKScene {
     var failCount = 0
     let failsForGameOver = 3
     var tapCount = 0
-    var tapsAvailableForStreak: Int { get { return streakCount + 3 } }
+    var tapsAvailableForStreak: Int = 3
     var gameDone = false
     
     // Delegation
@@ -60,9 +62,7 @@ class SessionScene: SKScene {
         
         let backAndDotHue = Double((50 + (streakCount * 2)) % 100) / 100.0
         let goalHue =       Double((90 + (streakCount * 2)) % 100) / 100.0
-        print("Streak Count: \(streakCount)")
-        print("back and dot hue: \(backAndDotHue)")
-        print("goal hue: \(goalHue)")
+        
         backColor = UIColor(hue: CGFloat(backAndDotHue), saturation: 0.1, brightness: 1, alpha: 1)
         dotColor = UIColor(hue: CGFloat(backAndDotHue), saturation: 1, brightness: 1, alpha: 1)
         goalColor = UIColor(hue: CGFloat(goalHue), saturation: 1, brightness: 1, alpha: 1)
@@ -104,7 +104,7 @@ class SessionScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         super.update(currentTime)
-        let delta = currentTime - lastUpdateTimeInterval
+        let delta = currentTime - lastUpdateTimeInterval // Time between last update() was called
         lastUpdateTimeInterval = currentTime
         updateWithDeltaTime(delta: delta > 1.0 ? 0.01666666 : delta)
     }
@@ -150,6 +150,7 @@ class SessionScene: SKScene {
     }
     
     // MARK: - Session Game Logic
+    /// Ends the game and puts the message in the text input
     func endGame(didWin: Bool) {
         gameDone = true
         if didWin {
@@ -180,11 +181,13 @@ class SessionScene: SKScene {
         }
     }
     
+    /// Checks whether 2 nodes intersect eachother
     func checkIntersection(between node1: SKNode, and node2: SKNode) -> Bool {
         return node1.intersects(node2)
     }
     
     // MARK: - Effects and Animations
+    /// Creates the dot that moves across the screen
     func makeDot(from direction: MovementDirection) {
         let movingDot = SessionGameNode(circleOfRadius: dotSize / 2)
         movingDot.fillColor = dotColor
@@ -227,6 +230,7 @@ class SessionScene: SKScene {
         addChild(movingDot)
     }
     
+    /// Creates the pulse that spawns when a succesful tap is made. (Moving dot lands in the goal)
     func pulseAnimation() {
         let shapeNode = SKShapeNode(circleOfRadius: goalSize / 2)
         shapeNode.strokeColor = goalColor
@@ -244,6 +248,7 @@ class SessionScene: SKScene {
     }
 }
 
+/// Classes that conform to Updatable are updating with the time between frames during the render loop
 protocol Updatable {
     func update(currentTime: TimeInterval)
 }

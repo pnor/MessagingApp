@@ -2,6 +2,8 @@
 //  SessionViewController.swift
 //  MessagingApp MessagesExtension
 //
+// Where the SessionScene is displayed.
+//
 //  Created by Phillip OReggio on 12/24/18.
 //  Copyright © 2018 phillip. All rights reserved.
 //
@@ -73,6 +75,7 @@ protocol StreakDelegate: class {
     var streak: Streak { get set }
 }
 
+/// Allows SessionScene to access this to send the session message
 protocol MessagingDelegate: class {
     func sendMessageSession()
 }

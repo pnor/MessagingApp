@@ -32,6 +32,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
     let padding = 20
     let vertPadding = 30
     var buttonHeight: CGFloat!
+    /// Number of Buttons on screen (for formatting)
     let numButtonsDisplayed = 6//7
     
     // Image Controls
@@ -294,7 +295,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
     }
     
     // MARK: - Sending Methods
-    
+    /// Puts a string in the iMessage text field
     func sendText(string: String) {
         conversation?.sendText(string, completionHandler: { (error) in
             if error != nil {
@@ -305,6 +306,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
         })
     }
     
+    /// Sends a test formatted with a MSMessageTemplateLayout
     func sendMSMessageText(string: String) {
         let message = MSMessage()
         let template = MSMessageTemplateLayout()
@@ -322,6 +324,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
         })
     }
     
+    /// Sends an image (not formatted)
     func sendRawImage(url: URL) {
         conversation?.sendAttachment(url, withAlternateFilename: "Image Chosen?", completionHandler: { (error) in
             self.presentationDelegate?.requestStyle(style: .compact)
@@ -333,7 +336,8 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
         })
     }
     
-    func sendSticker(url: URL) {
+    /// Sends a sticker (Not working; nothing shows up)
+    func sendSticker(url: URL) {     // FIXME
         var sticker: MSSticker
         do {
             sticker = try MSSticker(contentsOfFileURL: url, localizedDescription: "A Sticker")
@@ -351,6 +355,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
         })
     }
     
+    //// Sends a formatted image using MSMessageTemplateLayout
     func sendImage(image: UIImage) {
         let message = MSMessage()
         let template = MSMessageTemplateLayout()
@@ -372,6 +377,7 @@ class FullViewController: UIViewController, UINavigationControllerDelegate, UIIm
         }
     }
     
+    // Starts a Session
     func sendSession() {
         let message = MSMessage(session: sessionDelegate!.getMainSession())
         let layout = MSMessageTemplateLayout()

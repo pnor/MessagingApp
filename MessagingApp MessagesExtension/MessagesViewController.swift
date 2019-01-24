@@ -14,7 +14,9 @@ import SnapKit
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    /** Single session used for the SessionScene game, so that previous game messages are condensed. */
     var mainSession: MSSession?
+    /** Makes sure the Home Screen Menu display changes when changing from compact to expanded presentation styles. */
     var needsUpdateOnTransition = true
     
     override func viewDidLoad() {
@@ -74,7 +76,10 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
+    /** If the user taps on a message with a URL Component containing data for a streak, go to a SessionViewController and continue the game.
+     TODO: Switch to using MSLiveMessageLayout with a UITapGestureRecognizer since the didSelect() method gets called in other circumstances (like right after a message is sent and the selected message changes) */
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
+        //XXX * See above comment
         if let controller = makeSessionViewController(with: message, conversation: conversation) {
             presentViewController(controller: controller)
             needsUpdateOnTransition = false
@@ -102,6 +107,7 @@ class MessagesViewController: MSMessagesAppViewController {
         controller.didMove(toParent: self)
     }
     
+    /** Creates the view controller with the menu options */
     func makeHomeViewController(with conversation: MSConversation?, presentationStyle: MSMessagesAppPresentationStyle) -> UIViewController {
         var controller: UIViewController!
         if presentationStyle == .compact {
@@ -115,6 +121,7 @@ class MessagesViewController: MSMessagesAppViewController {
         return controller
     }
     
+    /** Creates the view controller where the Sesison games play out. */
     func makeSessionViewController(with message: MSMessage, conversation: MSConversation) -> UIViewController? {
         // Get a Streak
         var streak: Streak!
@@ -135,50 +142,8 @@ class MessagesViewController: MSMessagesAppViewController {
         return controller
     }
     
-    func createViewController(with conversation: MSConversation?, presentationStyle: MSMessagesAppPresentationStyle, canGoToSession: Bool) {
-        removeAllChildViewControllers()
-        var controller: UIViewController!
-        if presentationStyle == .compact {
-            controller = CompactViewController(with: conversation)
-            (controller as! CompactViewController).presentationDelegate = self
-        } else if presentationStyle == .expanded {
-            if let selectedMessage = conversation?.selectedMessage, canGoToSession {
-                if let messageStreak = streakFromMessage(message: selectedMessage) { // Message has a streak
-                    print("Message has a streak")
-                    if messageStreak.gameEnd == false { // Streak hasn't ended, open Session View
-                        print("Streak hasnt ended")
-                        mainSession = selectedMessage.session
-                        controller = SessionViewController(with: conversation, streak: messageStreak)
-                        if let sessionView = controller as? SessionViewController {
-                            sessionView.sessionDelegate = self
-                            sessionView.presentationStyleDelegate = self
-                        }
-                    } else { // Streak ended, show the end streak view
-                        print("Streak ended")
-                        controller = EndSessionViewController(streak: messageStreak)
-                    }
-                } else { // Can't create a streak from message URL
-                    print("Cant create from url")
-                    controller = FullViewController(with: conversation)
-                    if let fullView = controller as? FullViewController {
-                        fullView.presentationDelegate = self
-                        fullView.sessionDelegate = self
-                    }
-                }
-            } else { // Default; Open the menu for all view controllers
-                print("Default; Open the menu for all view controllers (convo.selectMess: \(conversation?.selectedMessage), canGoToSession; \(canGoToSession)")
-                controller = FullViewController(with: conversation)
-                if let fullView = controller as? FullViewController {
-                    fullView.presentationDelegate = self
-                    fullView.sessionDelegate = self
-                }
-            }
-        }
-        
-        presentViewController(controller: controller)
-    }
-    
     // MARK: Convenience Methods
+    /** Parses a Streak object from a message's URL Components. */
     private func streakFromMessage(message: MSMessage?) -> Streak? {
         var streak: Streak?
         
