@@ -3,12 +3,16 @@ Small iMessage App Extension project for iOS coded programmatically without any 
 
 ### Features
 Has a compact and expanded menu allowing you to choose from a variety of options:
+<p align="center">
 <img src="https://github.com/pnor/MessagingApp/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%20XS%20-%202019-01-23%20at%2023.13.28.png" height="900">
 <img src="https://github.com/pnor/MessagingApp/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%20XS%20-%202019-01-23%20at%2023.14.17.png" height="900">
+ </p>
 
 Start an interactive iMessage Session:
+<p align="center">
 <img src="https://github.com/pnor/MessagingApp/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%20XS%20-%202019-01-23%20at%2023.14.33.png" height="900">
 <img src="https://github.com/pnor/MessagingApp/blob/master/Images/Simulator%20Screen%20Shot%20-%20iPhone%20XS%20-%202019-01-23%20at%2023.14.41.png" height="900">
+ </p>
 
 ### Notes
 Still quite buggy, especially with switching presentation styles and sending sessions.
